@@ -211,11 +211,7 @@ const i18n = {
   legendProtectedLabel:{en: "Blue",   "zh-CN": "蓝色",    "zh-TW": "藍色" },
   legendProtectedSub: { en: "Tenant Isolation","zh-CN":"租户隔离","zh-TW":"租戶隔離" },
 
-  /* Tips */
-  tipTitle: { en: "💡 Presentation Tips", "zh-CN": "💡 宣讲提示", "zh-TW": "💡 宣講提示" },
-  tip1: { en: "Stay on 'Unscheduled' first — explain the problem", "zh-CN": "先停留在「未调度」，说明问题", "zh-TW": "先停留在「未調度」，說明問題" },
-  tip2: { en: "Click 'Play' to show how the scheduler works", "zh-CN": "点「播放」看调度器如何工作", "zh-TW": "點「播放」看調度器如何工作" },
-  tip3: { en: "Switch to 'In Operation' to show the final state", "zh-CN": "切到「运营中」展示最终效果", "zh-TW": "切到「運營中」展示最終效果" },
+
 
   /* GPU tooltip states */
   ttActive:    { en: "Active Compute",    "zh-CN": "有效计算",   "zh-TW": "有效計算" },
