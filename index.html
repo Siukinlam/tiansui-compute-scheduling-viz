@@ -3,11 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>天遂精益智能调度平台 — 算力调度可视化</title>
+    <title data-i18n="pageTitle">天遂精益智能调度平台 — 算力调度可视化</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <!-- Floating particles canvas -->
     <canvas id="particleCanvas" aria-hidden="true"></canvas>
 
     <main class="app-shell">
@@ -17,29 +16,38 @@
         <!-- 顶部栏 -->
         <header class="topbar">
           <div class="brand">
-            <p class="eyebrow">天遂 · 精益智能调度平台</p>
-            <h1>算力调度<span class="highlight">过程可视化</span></h1>
+            <p class="eyebrow" data-i18n="brandEyebrow">天遂 · 精益智能调度平台</p>
+            <h1><span data-i18n="title1">算力调度</span><span class="highlight" data-i18n="title2">过程可视化</span></h1>
           </div>
-          <div class="metrics-strip" aria-label="平台关键指标">
-            <div class="metric-card">
-              <span class="metric-value" id="gpuUtil">35%</span>
-              <small>GPU 利用率</small>
-              <span class="metric-delta negative" id="utilDelta">▼ 利用率低</span>
+          <div class="topbar-right">
+            <!-- 语言切换 -->
+            <div class="lang-switcher" role="radiogroup" aria-label="语言选择">
+              <button class="lang-btn active" data-lang="zh-CN" role="radio" aria-checked="true">简</button>
+              <button class="lang-btn" data-lang="zh-TW" role="radio" aria-checked="false">繁</button>
+              <button class="lang-btn" data-lang="en" role="radio" aria-checked="false">EN</button>
             </div>
-            <div class="metric-card">
-              <span class="metric-value" id="queueLen">12</span>
-              <small>排队任务数</small>
-              <span class="metric-delta negative" id="queueDelta">▶ 等待中</span>
-            </div>
-            <div class="metric-card">
-              <span class="metric-value" id="wasteRate">42%</span>
-              <small>资源浪费率</small>
-              <span class="metric-delta negative" id="wasteDelta">⚠ 碎片严重</span>
-            </div>
-            <div class="metric-card accent">
-              <span class="metric-value" id="roiScore">低</span>
-              <small>调度效率评分</small>
-              <span class="metric-delta" id="roiDelta">需优化</span>
+            <!-- 指标卡片 -->
+            <div class="metrics-strip" aria-label="平台关键指标">
+              <div class="metric-card">
+                <span class="metric-value" id="gpuUtil">35%</span>
+                <small data-i18n="metricUtil">GPU 利用率</small>
+                <span class="metric-delta negative" id="utilDelta" data-i18n="metricUtilLow">▼ 利用率低</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-value" id="queueLen">12</span>
+                <small data-i18n="metricQueue">排队任务数</small>
+                <span class="metric-delta negative" id="queueDelta" data-i18n="metricQueueWait">▶ 等待中</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-value" id="wasteRate">42%</span>
+                <small data-i18n="metricWaste">资源浪费率</small>
+                <span class="metric-delta negative" id="wasteDelta" data-i18n="metricWasteHigh">⚠ 碎片严重</span>
+              </div>
+              <div class="metric-card accent">
+                <span class="metric-value" id="roiScore" data-i18n="metricRoiLow">低</span>
+                <small data-i18n="metricRoi">调度效率评分</small>
+                <span class="metric-delta" id="roiDelta" data-i18n="metricRoiNeed">需优化</span>
+              </div>
             </div>
           </div>
         </header>
@@ -49,64 +57,57 @@
           <div class="mode-group">
             <button class="mode-button active" data-mode="before">
               <span class="mode-icon">⏸</span>
-              <span class="mode-label">未调度</span>
-              <span class="mode-desc">看问题</span>
+              <span class="mode-label" data-i18n="modeBefore">未调度</span>
+              <span class="mode-desc" data-i18n="modeBeforeDesc">看问题</span>
             </button>
             <button class="mode-button" data-mode="after">
               <span class="mode-icon">▶</span>
-              <span class="mode-label">调度中</span>
-              <span class="mode-desc">看过程</span>
+              <span class="mode-label" data-i18n="modeAfter">调度中</span>
+              <span class="mode-desc" data-i18n="modeAfterDesc">看过程</span>
             </button>
             <button class="mode-button" data-mode="taas">
               <span class="mode-icon">✓</span>
-              <span class="mode-label">运营中</span>
-              <span class="mode-desc">看效果</span>
+              <span class="mode-label" data-i18n="modeTaas">运营中</span>
+              <span class="mode-desc" data-i18n="modeTaasDesc">看效果</span>
             </button>
           </div>
           <div class="action-group">
             <button class="pulse-button" id="playScenario">
               <span class="pulse-icon">⚡</span>
-              播放完整调度过程
+              <span data-i18n="btnPlay">播放完整调度过程</span>
             </button>
             <button class="reset-button" id="resetView">
-              重置视图
+              <span data-i18n="btnReset">重置视图</span>
             </button>
           </div>
         </div>
 
         <!-- 主舞台：三栏布局 -->
         <div class="stage">
-          <!-- 数据流动轨道 -->
+          <!-- 数据流动轨道 SVG -->
           <div class="flow-rail" aria-hidden="true">
             <svg class="flow-svg" viewBox="0 0 1000 80" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="flowGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="rgba(10,158,108,0)" />
-                  <stop offset="50%" stop-color="rgba(10,158,108,0.7)" />
-                  <stop offset="100%" stop-color="rgba(10,158,108,0)" />
+                  <stop offset="0%" stop-color="rgba(10,158,108,0)"/>
+                  <stop offset="50%" stop-color="rgba(10,158,108,0.7)"/>
+                  <stop offset="100%" stop-color="rgba(10,158,108,0)"/>
                 </linearGradient>
                 <filter id="glow">
-                  <feGaussianBlur stdDeviation="3" result="blur" />
-                  <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                  <feGaussianBlur stdDeviation="3" result="blur"/>
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
                 </filter>
               </defs>
-              <!-- Left flow: tasks → scheduler -->
-              <path class="flow-path" id="flowPathLeft"
-                    d="M80,40 C200,40 280,20 350,40"
-                    stroke="url(#flowGrad1)" stroke-width="2" fill="none" />
-              <!-- Right flow: scheduler → GPUs -->
-              <path class="flow-path" id="flowPathRight"
-                    d="M580,40 C650,20 730,40 850,40"
-                    stroke="url(#flowGrad1)" stroke-width="2" fill="none" />
-              <!-- Animated dots along paths -->
+              <path class="flow-path" d="M80,40 C200,40 280,20 350,40" stroke="url(#flowGrad1)" stroke-width="2" fill="none"/>
+              <path class="flow-path" d="M580,40 C650,20 730,40 850,40" stroke="url(#flowGrad1)" stroke-width="2" fill="none"/>
               <circle class="flow-dot dot-task" r="5" fill="#f5b042" filter="url(#glow)">
-                <animateMotion dur="2.5s" repeatCount="indefinite" path="M80,40 C200,40 280,20 350,40" />
+                <animateMotion dur="2.5s" repeatCount="indefinite" path="M80,40 C200,40 280,20 350,40"/>
               </circle>
               <circle class="flow-dot dot-sched" r="5" fill="#0ec9d4" filter="url(#glow)">
-                <animateMotion dur="2.5s" repeatCount="indefinite" begin="0.8s" path="M80,40 C200,40 280,20 350,40" />
+                <animateMotion dur="2.5s" repeatCount="indefinite" begin="0.8s" path="M80,40 C200,40 280,20 350,40"/>
               </circle>
               <circle class="flow-dot dot-gpu" r="5" fill="#0a9e6c" filter="url(#glow)">
-                <animateMotion dur="2.5s" repeatCount="indefinite" begin="0.5s" path="M580,40 C650,20 730,40 850,40" />
+                <animateMotion dur="2.5s" repeatCount="indefinite" begin="0.5s" path="M580,40 C650,20 730,40 850,40"/>
               </circle>
             </svg>
           </div>
@@ -116,91 +117,99 @@
             <div class="lane-title">
               <div class="lane-step">01</div>
               <div>
-                <span>任务进入</span>
-                <strong id="queueStatus">队列拥塞中</strong>
+                <span data-i18n="laneTask">任务进入</span>
+                <strong id="queueStatus" data-i18n="queueCongested">队列拥塞中</strong>
               </div>
               <div class="queue-badge" id="queueBadge">12 个等待</div>
             </div>
+
+            <!-- 任务卡片：全部是真实的计算任务类型 -->
             <div class="job-card train" data-job="train" id="jobTrain">
               <div class="job-header">
                 <span class="job-tag">TRAIN</span>
-                <span class="job-gpu-req">需要 8 GPU</span>
+                <span class="job-gpu-req" data-i18n="jobTrainGpu">需要 8 GPU</span>
               </div>
-              <strong>训练任务</strong>
-              <small>大模型分布式训练，需多卡同时启动</small>
-              <div class="job-progress"><div class="job-progress-fill" style="width:0%"></div></div>
+              <strong data-i18n="jobTrainName">分布式训练</strong>
+              <small data-i18n="jobTrainDesc">大模型训练，需多卡同时启动（Gang Scheduling）</small>
+              <div class="job-progress"><div class="job-progress-fill"></div></div>
             </div>
+
             <div class="job-card infer" data-job="infer" id="jobInfer">
               <div class="job-header">
                 <span class="job-tag">INFER</span>
-                <span class="job-gpu-req">需要 1 GPU</span>
+                <span class="job-gpu-req" data-i18n="jobInferGpu">需要 1 GPU</span>
               </div>
-              <strong>推理请求 ×50</strong>
-              <small>在线推理，数量多、延迟敏感</small>
-              <div class="job-progress"><div class="job-progress-fill" style="width:0%"></div></div>
+              <strong data-i18n="jobInferName">在线推理服务</strong>
+              <small data-i18n="jobInferDesc">高并发低延迟，需分散放置避免热点</small>
+              <div class="job-progress"><div class="job-progress-fill"></div></div>
             </div>
-            <div class="job-card tenant" data-job="tenant" id="jobTenant">
+
+            <div class="job-card dev" data-job="dev" id="jobDev">
               <div class="job-header">
-                <span class="job-tag">TENANT</span>
-                <span class="job-gpu-req">需要 4 GPU</span>
+                <span class="job-tag">DEV</span>
+                <span class="job-gpu-req" data-i18n="jobDevGpu">需要 1 GPU</span>
               </div>
-              <strong>租户 A 任务</strong>
-              <small>多租户隔离，不可互相干扰</small>
-              <div class="job-progress"><div class="job-progress-fill" style="width:0%"></div></div>
+              <strong data-i18n="jobDevName">交互式开发</strong>
+              <small data-i18n="jobDevDesc">Jupyter / VS Code，预留 GPU 不中断</small>
+              <div class="job-progress"><div class="job-progress-fill"></div></div>
             </div>
-            <div class="job-card storage" data-job="storage" id="jobData">
+
+            <div class="job-card batch" data-job="batch" id="jobBatch">
               <div class="job-header">
-                <span class="job-tag">DATA</span>
-                <span class="job-gpu-req">持续供数</span>
+                <span class="job-tag">BATCH</span>
+                <span class="job-gpu-req" data-i18n="jobBatchGpu">需要 4 GPU</span>
               </div>
-              <strong>数据管道</strong>
-              <small>训练数据持续读取，不可中断</small>
-              <div class="job-progress"><div class="job-progress-fill" style="width:0%"></div></div>
+              <strong data-i18n="jobBatchName">批处理 / 微调</strong>
+              <small data-i18n="jobBatchDesc">弹性资源，可抢占，优先级较低</small>
+              <div class="job-progress"><div class="job-progress-fill"></div></div>
             </div>
           </aside>
 
           <!-- 中栏：调度器核心 -->
           <section class="scheduler-core" aria-label="调度器">
-            <div class="stage-label">02 · 智能判断</div>
+            <div class="stage-label" data-i18n="schedulerLabel">02 · 智能判断</div>
+
             <div class="core-ring">
               <div class="orbit orbit-one"></div>
               <div class="orbit orbit-two"></div>
               <div class="orbit orbit-three"></div>
               <div class="core-content" id="schedulerCore">
-                <p>Scheduler Engine</p>
-                <h2>调度器</h2>
-                <span id="coreMode">闲置 · 错配 · 过度供给</span>
+                <p data-i18n="schedulerEngine">Scheduler Engine</p>
+                <h2 data-i18n="schedulerName">调度器</h2>
+                <span id="coreMode" data-i18n="coreModeBefore">闲置 · 错配 · 过度供给</span>
                 <div class="core-pulse"></div>
               </div>
             </div>
+
+            <!-- 调度策略 -->
             <div class="policy-section">
-              <p class="policy-label">调度策略</p>
+              <p class="policy-label" data-i18n="policyLabel">调度策略</p>
               <div class="policy-grid">
-                <button data-policy="gang" class="policy-btn">
+                <button data-policy="gang" class="policy-btn" id="policyGang">
                   <span class="policy-icon">⛓</span>
                   <span>Gang Scheduling</span>
-                  <small>同时启动</small>
+                  <small data-i18n="policyGangDesc">同时启动</small>
                 </button>
-                <button data-policy="binpack" class="policy-btn">
+                <button data-policy="binpack" class="policy-btn" id="policyBinpack">
                   <span class="policy-icon">📦</span>
                   <span>Bin Packing</span>
-                  <small>紧凑放置</small>
+                  <small data-i18n="policyBinpackDesc">紧凑放置</small>
                 </button>
-                <button data-policy="spread" class="policy-btn">
+                <button data-policy="spread" class="policy-btn" id="policySpread">
                   <span class="policy-icon">🔄</span>
                   <span>Spread</span>
-                  <small>分散放置</small>
+                  <small data-i18n="policySpreadDesc">分散放置</small>
                 </button>
-                <button data-policy="topology" class="policy-btn">
+                <button data-policy="topology" class="policy-btn" id="policyTopology">
                   <span class="policy-icon">🗺</span>
                   <span>Topology</span>
-                  <small>就近放置</small>
+                  <small data-i18n="policyTopoDesc">就近放置</small>
                 </button>
               </div>
             </div>
             <div class="policy-detail" id="policyDetail">
               <span class="policy-detail-icon">💡</span>
-              <p>点击策略按钮，了解调度器如何做出决策</p>
+              <p data-i18n="policyHint">点击策略按钮，了解调度器如何做出决策</p>
             </div>
           </section>
 
@@ -209,35 +218,35 @@
             <div class="cluster-header">
               <div>
                 <span class="lane-step">03</span>
-                <span>资源分配</span>
+                <span data-i18n="clusterAlloc">资源分配</span>
                 <strong id="clusterScale">GPU 集群 · 96 卡</strong>
               </div>
               <div class="network-badges">
-                <span class="badge compute">计算</span>
-                <span class="badge network">网络</span>
-                <span class="badge storage-badge">存储</span>
+                <span class="badge compute" data-i18n="badgeCompute">计算</span>
+                <span class="badge network" data-i18n="badgeNetwork">网络</span>
+                <span class="badge storage-badge" data-i18n="badgeStorage">存储</span>
               </div>
             </div>
 
-            <!-- GPU 利用率热力概览 -->
+            <!-- GPU 数量概览 -->
             <div class="cluster-summary">
               <div class="summary-item">
                 <span class="summary-num" id="activeCount">18</span>
-                <small>活跃 GPU</small>
+                <small data-i18n="summaryActive">活跃 GPU</small>
               </div>
               <div class="summary-item">
                 <span class="summary-num" id="idleCount">54</span>
-                <small>空闲 GPU</small>
+                <small data-i18n="summaryIdle">空闲 GPU</small>
               </div>
               <div class="summary-item">
                 <span class="summary-num" id="wasteCount">24</span>
-                <small>碎片/错配</small>
+                <small data-i18n="summaryWaste">碎片 / 错配</small>
               </div>
             </div>
 
+            <!-- GPU 网格 -->
             <div class="gpu-grid-wrapper">
               <div class="gpu-grid" id="gpuGrid" aria-label="GPU 使用状态矩阵"></div>
-              <!-- GPU 详情浮层 -->
               <div class="gpu-tooltip" id="gpuTooltip" hidden>
                 <span class="tooltip-id"></span>
                 <span class="tooltip-status"></span>
@@ -245,50 +254,39 @@
               </div>
             </div>
 
+            <!-- 颜色图例 -->
             <div class="waste-map">
-              <div class="waste-item"><span class="dot idle"></span>闲置浪费</div>
-              <div class="waste-item"><span class="dot mismatch"></span>错配碎片</div>
-              <div class="waste-item"><span class="dot active"></span>有效计算</div>
-              <div class="waste-item"><span class="dot protected"></span>隔离保障</div>
+              <div class="waste-item"><span class="dot idle"></span><span data-i18n="legendIdle">闲置浪费</span></div>
+              <div class="waste-item"><span class="dot mismatch"></span><span data-i18n="legendMismatch">错配碎片</span></div>
+              <div class="waste-item"><span class="dot active"></span><span data-i18n="legendActive">有效计算</span></div>
+              <div class="waste-item"><span class="dot protected"></span><span data-i18n="legendProtected">租户隔离</span></div>
+            </div>
+
+            <!-- 租户隔离说明：这不是任务，而是平台能力 -->
+            <div class="tenant-note">
+              <span class="tenant-icon">🛡</span>
+              <p data-i18n="tenantNote">「租户隔离」不是独立任务，而是调度平台的资源隔离能力 —— 确保不同客户的 GPU 运行互不干扰。</p>
             </div>
           </section>
         </div>
 
-        <!-- 底部：效率对比 -->
+        <!-- 底部效率对比 -->
         <section class="compare-strip" aria-label="调度效果对比">
           <div class="compare-card before">
-            <span class="compare-label">调度前</span>
-            <div class="compare-row">
-              <span>GPU 利用率</span>
-              <strong class="negative">35%</strong>
-            </div>
-            <div class="compare-row">
-              <span>平均排队时间</span>
-              <strong class="negative">> 2 小时</strong>
-            </div>
-            <div class="compare-row">
-              <span>资源碎片率</span>
-              <strong class="negative">42%</strong>
-            </div>
+            <span class="compare-label" data-i18n="compareBefore">调度前</span>
+            <div class="compare-row"><span data-i18n="compareUtil">GPU 利用率</span><strong class="negative">35%</strong></div>
+            <div class="compare-row"><span data-i18n="compareQueue">平均排队时间</span><strong class="negative">&gt; 2 小时</strong></div>
+            <div class="compare-row"><span data-i18n="compareFragment">资源碎片率</span><strong class="negative">42%</strong></div>
           </div>
           <div class="compare-arrow">
-            <span>调度引擎</span>
+            <span data-i18n="compareEngine">调度引擎</span>
             <svg width="60" height="24" viewBox="0 0 60 24"><path d="M0,12 L48,12 M40,5 L52,12 L40,19" stroke="var(--emerald)" stroke-width="3" fill="none"/></svg>
           </div>
           <div class="compare-card after">
-            <span class="compare-label">调度后</span>
-            <div class="compare-row">
-              <span>GPU 利用率</span>
-              <strong class="positive">78%+</strong>
-            </div>
-            <div class="compare-row">
-              <span>平均排队时间</span>
-              <strong class="positive">&lt; 5 分钟</strong>
-            </div>
-            <div class="compare-row">
-              <span>资源碎片率</span>
-              <strong class="positive">&lt; 8%</strong>
-            </div>
+            <span class="compare-label" data-i18n="compareAfter">调度后</span>
+            <div class="compare-row"><span data-i18n="compareUtil">GPU 利用率</span><strong class="positive">78%+</strong></div>
+            <div class="compare-row"><span data-i18n="compareQueue">平均排队时间</span><strong class="positive">&lt; 5 分钟</strong></div>
+            <div class="compare-row"><span data-i18n="compareFragment">资源碎片率</span><strong class="positive">&lt; 8%</strong></div>
           </div>
         </section>
       </section>
@@ -296,78 +294,76 @@
       <!-- ===== 右侧叙事面板 ===== -->
       <aside class="narrative-panel" aria-label="调度流程面板">
         <div class="chapter">
-          <p class="eyebrow">调度流程 · Scheduling Flow</p>
-          <h2 id="chapterTitle">看小点怎么流动</h2>
-          <p id="chapterCopy">左边是任务，中间做判断，右边是 GPU。点击「播放」看完整过程。</p>
+          <p class="eyebrow" data-i18n="narrativeEyebrow">调度流程 · Scheduling Flow</p>
+          <h2 id="chapterTitle" data-i18n="chapterTitleBefore">看小点怎么流动</h2>
+          <p id="chapterCopy" data-i18n="chapterCopyBefore">左边是任务，中间做判断，右边是 GPU。点击「播放」看完整过程。</p>
         </div>
 
         <div class="flow-stack">
           <div class="flow-card active" data-step="0">
             <span class="flow-num">1</span>
             <div>
-              <strong>任务进入队列</strong>
-              <small>训练、推理、租户任务等待资源</small>
+              <strong data-i18n="step1Title">任务进入队列</strong>
+              <small data-i18n="step1Desc">训练、推理、开发、批处理任务等待资源</small>
             </div>
           </div>
           <div class="flow-card" data-step="1">
             <span class="flow-num">2</span>
             <div>
-              <strong>调度器读取需求</strong>
-              <small>分析 GPU 需求、优先级、亲和性</small>
+              <strong data-i18n="step2Title">调度器读取需求</strong>
+              <small data-i18n="step2Desc">分析 GPU 需求、优先级、租户归属</small>
             </div>
           </div>
           <div class="flow-card" data-step="2">
             <span class="flow-num">3</span>
             <div>
-              <strong>选择策略与 GPU</strong>
-              <small>Gang / Binpack / Spread / Topology</small>
+              <strong data-i18n="step3Title">选择策略与 GPU</strong>
+              <small data-i18n="step3Desc">Gang / Binpack / Spread / Topology</small>
             </div>
           </div>
           <div class="flow-card" data-step="3">
             <span class="flow-num">4</span>
             <div>
-              <strong>任务开始运行</strong>
-              <small>GPU 分配完成，计算启动</small>
+              <strong data-i18n="step4Title">任务开始运行</strong>
+              <small data-i18n="step4Desc">GPU 分配完成，计算启动，资源被有效利用</small>
             </div>
           </div>
         </div>
 
         <div class="legend-panel">
-          <h3>颜色说明</h3>
+          <h3 data-i18n="legendTitle">颜色说明</h3>
           <div class="legend-grid">
             <div class="legend-item">
               <span class="swatch idle"></span>
-              <div><strong>灰色</strong><span>空闲 GPU</span></div>
+              <div><strong data-i18n="legendIdleLabel">灰色</strong><span data-i18n="legendIdleSub">空闲 GPU</span></div>
             </div>
             <div class="legend-item">
               <span class="swatch mismatch"></span>
-              <div><strong>红色</strong><span>错配 / 碎片</span></div>
+              <div><strong data-i18n="legendMismatchLabel">红色</strong><span data-i18n="legendMismatchSub">错配 / 碎片</span></div>
             </div>
             <div class="legend-item">
               <span class="swatch active"></span>
-              <div><strong>绿色</strong><span>有效计算</span></div>
+              <div><strong data-i18n="legendActiveLabel">绿色</strong><span data-i18n="legendActiveSub">有效计算</span></div>
             </div>
             <div class="legend-item">
               <span class="swatch protected"></span>
-              <div><strong>蓝色</strong><span>租户隔离</span></div>
+              <div><strong data-i18n="legendProtectedLabel">蓝色</strong><span data-i18n="legendProtectedSub">租户隔离</span></div>
             </div>
           </div>
         </div>
 
         <div class="tip-box">
-          <p class="tip-title">💡 宣讲提示</p>
+          <p class="tip-title" data-i18n="tipTitle">💡 宣讲提示</p>
           <ul>
-            <li>先停留在「未调度」，说明问题</li>
-            <li>点「播放」看调度器如何工作</li>
-            <li>切到「运营中」展示最终效果</li>
+            <li data-i18n="tip1">先停留在「未调度」，说明问题</li>
+            <li data-i18n="tip2">点「播放」看调度器如何工作</li>
+            <li data-i18n="tip3">切到「运营中」展示最终效果</li>
           </ul>
         </div>
       </aside>
     </main>
 
-    <!-- Toast -->
     <div class="toast" id="toast" hidden></div>
-
     <script src="./app.js"></script>
   </body>
 </html>
