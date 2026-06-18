@@ -12,6 +12,8 @@
   --coral-glow: #ff7b6e;
   --lavender: #5b7fff;
   --lavender-glow: #7e99ff;
+  --idle: #8ce0c0;
+  --idle-glow: #a8f0d8;
   --slate: #889995;
   --slate-light: #b0bebb;
   --mist: #dbe7e2;
@@ -503,7 +505,7 @@ body.taas .core-content {
 
 .gpu-cell:hover { transform: scale(1.25); z-index: 2; outline: 2px solid var(--slate); outline-offset: 1px; }
 
-.gpu-cell.idle      { background: #dce4e1; }
+.gpu-cell.idle      { background: var(--idle); box-shadow: 0 0 0 2px rgba(140,224,192,0.3); }
 .gpu-cell.mismatch  { background: var(--coral); opacity: 0.75; }
 .gpu-cell.over      { background: var(--amber); opacity: 0.8; }
 .gpu-cell.active    { background: var(--emerald);  box-shadow: 0 0 0 3px rgba(10, 158, 108, 0.18); }
@@ -534,7 +536,7 @@ body.taas .core-content {
 .waste-item { display: flex; align-items: center; gap: 6px; }
 
 .dot { display: inline-block; width: 10px; height: 10px; border-radius: 3px; }
-.dot.idle      { background: #dce4e1; }
+.dot.idle      { background: var(--idle); }
 .dot.mismatch  { background: var(--coral); }
 .dot.active    { background: var(--emerald); }
 .dot.protected { background: var(--lavender); }
@@ -634,7 +636,7 @@ body.taas .core-content {
   width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0;
 }
 
-.swatch.idle      { background: #dce4e1; }
+.swatch.idle      { background: var(--idle); }
 .swatch.mismatch  { background: var(--coral); }
 .swatch.active    { background: var(--emerald); }
 .swatch.protected { background: var(--lavender); }

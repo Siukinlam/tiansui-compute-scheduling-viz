@@ -202,7 +202,7 @@ const i18n = {
 
   /* Legend */
   legendTitle:        { en: "Legend", "zh-CN": "颜色说明", "zh-TW": "顏色說明" },
-  legendIdleLabel:    { en: "Gray",   "zh-CN": "灰色",     "zh-TW": "灰色" },
+  legendIdleLabel:    { en: "Mint",   "zh-CN": "浅绿",     "zh-TW": "淺綠" },
   legendIdleSub:      { en: "Idle GPU","zh-CN":"空闲 GPU", "zh-TW": "空閒 GPU" },
   legendMismatchLabel:{ en: "Red",    "zh-CN": "红色",     "zh-TW": "紅色" },
   legendMismatchSub:  { en: "Mismatch / Fragmented","zh-CN":"错配 / 碎片","zh-TW":"錯配 / 碎片" },
