@@ -202,7 +202,7 @@ const i18n = {
 
   /* Legend */
   legendTitle:        { en: "Legend", "zh-CN": "颜色说明", "zh-TW": "顏色說明" },
-  legendIdleLabel:    { en: "Mint",   "zh-CN": "浅绿",     "zh-TW": "淺綠" },
+  legendIdleLabel:    { en: "Gray",   "zh-CN": "灰色",     "zh-TW": "灰色" },
   legendIdleSub:      { en: "Idle GPU","zh-CN":"空闲 GPU", "zh-TW": "空閒 GPU" },
   legendMismatchLabel:{ en: "Red",    "zh-CN": "红色",     "zh-TW": "紅色" },
   legendMismatchSub:  { en: "Mismatch / Fragmented","zh-CN":"错配 / 碎片","zh-TW":"錯配 / 碎片" },
@@ -294,8 +294,8 @@ const modes = {
     queueStatusKey: "queueCongested", queueBadgeKey: "badgeWait12",
     coreKey: "coreModeBefore", titleKey: "chapterTitleBefore", copyKey: "chapterCopyBefore",
     clusterKey: "clusterBefore",
-    pattern: ["active","idle","idle","idle","mismatch","idle","idle","over","active","idle","idle","mismatch","idle","mismatch","idle","idle"],
-    activeN: 18, idleN: 54, wasteN: 24
+    pattern: ["active","idle","idle","idle","mismatch","idle","idle","over","active","idle","idle","mismatch","over","mismatch","idle","idle"],
+    activeN: 12, idleN: 54, wasteN: 30
   },
   after: {
     bodyClass: "after",
@@ -306,8 +306,8 @@ const modes = {
     queueStatusKey: "queueAllocating", queueBadgeKey: "badgeWait6",
     coreKey: "coreModeAfter", titleKey: "chapterTitleAfter", copyKey: "chapterCopyAfter",
     clusterKey: "clusterDuring",
-    pattern: ["active","active","infer","active","protected","active","infer","active","active","infer","active","protected","active","infer","active","active"],
-    activeN: 58, idleN: 22, wasteN: 16
+    pattern: ["active","idle","infer","active","protected","idle","mismatch","active","idle","over","active","infer","over","idle","infer","active"],
+    activeN: 54, idleN: 24, wasteN: 18
   },
   taas: {
     bodyClass: "taas",
@@ -318,8 +318,8 @@ const modes = {
     queueStatusKey: "queueRunning", queueBadgeKey: "badgeWait2",
     coreKey: "coreModeTaas", titleKey: "chapterTitleTaas", copyKey: "chapterCopyTaas",
     clusterKey: "clusterTaas",
-    pattern: ["protected","active","infer","protected","active","active","infer","protected","active","active","infer","protected","active","infer","protected","active"],
-    activeN: 75, idleN: 13, wasteN: 8
+    pattern: ["protected","active","infer","idle","protected","infer","active","mismatch","infer","protected","idle","active","infer","active","protected","active"],
+    activeN: 78, idleN: 12, wasteN: 6
   }
 };
 
